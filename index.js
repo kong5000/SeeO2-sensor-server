@@ -1,7 +1,9 @@
+require('dotenv').config()
 const express = require("express");
 const app = express();
 const axios = require("axios")
 const bodyParser = require("body-parser")
+const localtunnel = require('localtunnel');
 
 const ARDUINO_STATIC_IP = 'http://192.168.0.18';
 
@@ -20,4 +22,11 @@ app.get("/", async (req, res) => {
 
 });
 
-app.listen(3000, () => console.log("Server listening on port 3000!"));
+app.listen(3000, async () => {
+  console.log("Server listening on port 3000!")
+  const tunnel = await localtunnel({ port: 3000, subdomain: process.env.TUNNEL_SUBDOMAIN });
+  console.log(tunnel.url)
+  tunnel.on('close', () => {
+    // tunnels are closed
+  });
+});
