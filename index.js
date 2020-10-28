@@ -42,7 +42,7 @@ app.listen(3000, async () => {
     // tunnels are closed
   });
 
-  tunnel.on('error', () => {
+  tunnel.on('error', async () => {
     //attempt to reconnect
     tunnel = await localtunnel({ port: 3000, subdomain: process.env.TUNNEL_SUBDOMAIN });
   });
