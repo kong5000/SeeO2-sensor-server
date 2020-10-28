@@ -78,21 +78,7 @@ const establishLocaltunnelConnection = async () => {
     });
 
     tunnel.on('error', async (err) => {
-      //attempt to reconnect
       console.log(err)
-      try {
-        const response = await axios({
-          method: 'post',
-          url: BACKEND_URL,
-          data: {
-            url: tunnel.url,
-            id: 1
-          }
-        });
-        console.log(response.data)
-      } catch (e) {
-        console.log(e.message)
-      }
     });
 
     const response = await axios({
