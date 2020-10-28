@@ -42,6 +42,21 @@ app.listen(3000, async () => {
   if (args.includes("localtunnel")) {
     const tunnel = await localtunnel({ port: 3000, subdomain: process.env.TUNNEL_SUBDOMAIN });
     console.log(`localtunnel url is : ${tunnel.url}`)
+
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'http://localhost:8001',
+        data: {
+          url: tunnel.url,
+          id: 1
+        }
+      });
+      console.log(response.data)
+    } catch (e) {
+      console.log(e.message)
+    }
+
     tunnel.on('close', () => {
       // tunnels are closed
     });
@@ -49,7 +64,19 @@ app.listen(3000, async () => {
     tunnel.on('error', async (err) => {
       //attempt to reconnect
       console.log(err)
-      tunnel = await localtunnel({ port: 3000, subdomain: process.env.TUNNEL_SUBDOMAIN });
+      try {
+        const response = await axios({
+          method: 'post',
+          url: 'http://localhost:8001',
+          data: {
+            url: tunnel.url,
+            id: 1
+          }
+        });
+        console.log(response.data)
+      } catch (e) {
+        console.log(e.message)
+      }
     });
   } else {
     try {
@@ -69,7 +96,7 @@ app.listen(3000, async () => {
       });
       console.log(response.data)
     } catch (e) {
-      console.log(e)
+      console.log(e.message)
     }
   }
 });
