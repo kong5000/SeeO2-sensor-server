@@ -4,16 +4,18 @@ const app = express();
 const axios = require("axios")
 const bodyParser = require("body-parser")
 const localtunnel = require('localtunnel');
+const ngrok = require('ngrok')
 
+const args = process.argv.slice(2);
 const ARDUINO_STATIC_IP = 'http://192.168.0.18';
 
 app.get("/", async (req, res) => {
-  try{
-    const data = await axios.get(ARDUINO_STATIC_IP, {timeout: 3000})
+  try {
+    const data = await axios.get(ARDUINO_STATIC_IP, { timeout: 3000 })
     console.log(data.data)
-  
+
     res.send(data.data)
-  }catch(e){
+  } catch (e) {
     res.status(400).send({
       message: 'Arduino offline'
     })
@@ -22,11 +24,11 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/reset", async (req, res) => {
-  try{
-    const data = await axios.get(ARDUINO_STATIC_IP + '/reset', {timeout: 6000})
+  try {
+    const data = await axios.get(ARDUINO_STATIC_IP + '/reset', { timeout: 6000 })
     console.log(data.data)
     res.send(data.data)
-  }catch(e){
+  } catch (e) {
     res.status(400).send({
       message: 'Reset command failed, Arduino offline?'
     })
@@ -36,15 +38,38 @@ app.get("/reset", async (req, res) => {
 
 app.listen(3000, async () => {
   console.log("Server listening on port 3000!")
-  let tunnel = await localtunnel({ port: 3000, subdomain: process.env.TUNNEL_SUBDOMAIN });
-  console.log(tunnel.url)
-  tunnel.on('close', () => {
-    // tunnels are closed
-  });
+  //Use either local tunnel or ngrok depening on command line args
+  if (args.includes("localtunnel")) {
+    const tunnel = await localtunnel({ port: 3000, subdomain: process.env.TUNNEL_SUBDOMAIN });
+    console.log(`localtunnel url is : ${tunnel.url}`)
+    tunnel.on('close', () => {
+      // tunnels are closed
+    });
 
-  tunnel.on('error', async () => {
-    //attempt to reconnect
-    tunnel = await localtunnel({ port: 3000, subdomain: process.env.TUNNEL_SUBDOMAIN });
-  });
+    tunnel.on('error', async (err) => {
+      //attempt to reconnect
+      console.log(err)
+      tunnel = await localtunnel({ port: 3000, subdomain: process.env.TUNNEL_SUBDOMAIN });
+    });
+  } else {
+    try {
+      const url = await ngrok.connect({
+        addr: 3000
+      });
+      console.log(`ngrok url is: ${url}`)
 
+      //Report the ngrok url to the SeeO2 backend
+      const response = await axios({
+        method: 'post',
+        url: 'http://localhost:8001',
+        data: {
+          url: url,
+          id: 1
+        }
+      });
+      console.log(response.data)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 });
