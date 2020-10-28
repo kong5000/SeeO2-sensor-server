@@ -2,19 +2,19 @@
 
 Download and install the [arduino IDE](https://www.arduino.cc/en/main/software). I recommend installing on windows.
 
-#### Install arduino libraries
+### Install arduino libraries
 Open the arduino IDE and click Tools-> Manage Libraries
 Enter WiFiNINA into the search bar and install the WiFiNINA library
 !["ArduinoLibraryInstall"](https://github.com/kong5000/SeeO2-sensor-server/blob/master/docs/arduino_library.png?raw=true)
 
 Similarly search for and install the Adafruit PM25 AQI and Adafruit BusIO libraries. 
 
-#### Install board specific libraries
+### Install board specific libraries
 click Tools->Board -> Boards Manager
 
 Search for Arduino megaAVR Boards and install the package.
 
-#### Uploading Code to Arduino
+### Uploading Code to Arduino
 Connect the Arduino to your computer.
 
 In the arduino IDE click File->Open and open the Arduino folder from this github project.
