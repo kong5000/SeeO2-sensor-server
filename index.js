@@ -40,22 +40,38 @@ app.listen(3000, async () => {
   console.log("Server listening on port 3000!")
   //Use either local tunnel or ngrok depening on command line args
   if (args.includes("localtunnel")) {
+    establishLocaltunnelConnection()
+  } else {
+    establishNgrokConnection()
+  }
+});
+
+const establishNgrokConnection = async () => {
+  try {
+    const url = await ngrok.connect({
+      addr: 3000
+    });
+    console.log(`ngrok url is: ${url}`)
+
+    //Report the ngrok url to the SeeO2 backend
+    const response = await axios({
+      method: 'post',
+      url: 'http://localhost:8001',
+      data: {
+        url: url,
+        id: 1
+      }
+    });
+    console.log(response.data)
+  } catch (e) {
+    console.log(e.message)
+  }
+}
+
+const establishLocaltunnelConnection = async () => {
+  try {
     const tunnel = await localtunnel({ port: 3000, subdomain: process.env.TUNNEL_SUBDOMAIN });
     console.log(`localtunnel url is : ${tunnel.url}`)
-
-    try {
-      const response = await axios({
-        method: 'post',
-        url: 'http://localhost:8001',
-        data: {
-          url: tunnel.url,
-          id: 1
-        }
-      });
-      console.log(response.data)
-    } catch (e) {
-      console.log(e.message)
-    }
 
     tunnel.on('close', () => {
       // tunnels are closed
@@ -78,25 +94,17 @@ app.listen(3000, async () => {
         console.log(e.message)
       }
     });
-  } else {
-    try {
-      const url = await ngrok.connect({
-        addr: 3000
-      });
-      console.log(`ngrok url is: ${url}`)
 
-      //Report the ngrok url to the SeeO2 backend
-      const response = await axios({
-        method: 'post',
-        url: 'http://localhost:8001',
-        data: {
-          url: url,
-          id: 1
-        }
-      });
-      console.log(response.data)
-    } catch (e) {
-      console.log(e.message)
-    }
+    const response = await axios({
+      method: 'post',
+      url: 'http://localhost:8001',
+      data: {
+        url: tunnel.url,
+        id: 1
+      }
+    });
+    console.log(response.data)
+  } catch (e) {
+    console.log(e.message)
   }
-});
+}
