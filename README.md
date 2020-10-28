@@ -10,7 +10,8 @@ Enter WiFiNINA into the search bar and install the WiFiNINA library
 Similarly search for and install the Adafruit PM25 AQI and Adafruit BusIO libraries. 
 
 #### Install board specific libraries
-click Tools->Board ->Boards Manager
+click Tools->Board -> Boards Manager
+
 Search for Arduino megaAVR Boards and install the package.
 
 #### Uploading Code to Arduino
@@ -36,4 +37,4 @@ This will use localtunnel to create a publicly accessbile url that will proxy re
 
 ### `npm run ngrok`
 
-This will use ngrok to create a publicly accessbile url that will proxy requests to the local node server. A randomly generate url will be provided by ngrok. The sensor server will then report this url to SeeO2 backend.
+This will use ngrok to create a publicly accessbile url that will proxy requests to the local node server. A randomly generated url will be provided by ngrok. The sensor server will then report this url to SeeO2 backend.
