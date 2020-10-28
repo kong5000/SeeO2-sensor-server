@@ -2,12 +2,12 @@ require('dotenv').config()
 const express = require("express");
 const app = express();
 const axios = require("axios")
-const bodyParser = require("body-parser")
 const localtunnel = require('localtunnel');
 const ngrok = require('ngrok')
 
 const args = process.argv.slice(2);
 const ARDUINO_STATIC_IP = 'http://192.168.0.18';
+const BACKEND_URL = 'http://localhost:8001';
 
 app.get("/", async (req, res) => {
   try {
@@ -56,7 +56,7 @@ const establishNgrokConnection = async () => {
     //Report the ngrok url to the SeeO2 backend
     const response = await axios({
       method: 'post',
-      url: 'http://localhost:8001',
+      url: BACKEND_URL,
       data: {
         url: url,
         id: 1
@@ -83,7 +83,7 @@ const establishLocaltunnelConnection = async () => {
       try {
         const response = await axios({
           method: 'post',
-          url: 'http://localhost:8001',
+          url: BACKEND_URL,
           data: {
             url: tunnel.url,
             id: 1
@@ -97,7 +97,7 @@ const establishLocaltunnelConnection = async () => {
 
     const response = await axios({
       method: 'post',
-      url: 'http://localhost:8001',
+      url: BACKEND_URL,
       data: {
         url: tunnel.url,
         id: 1
