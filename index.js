@@ -59,7 +59,7 @@ const establishNgrokConnection = async () => {
       url: BACKEND_URL,
       data: {
         url: url,
-        id: 1
+        id: process.env.SENSOR_ID
       }
     });
     console.log(response.data)
@@ -86,7 +86,7 @@ const establishLocaltunnelConnection = async () => {
       url: BACKEND_URL,
       data: {
         url: tunnel.url,
-        id: 1
+        id: process.env.SENSOR_ID
       }
     });
     console.log(response.data)

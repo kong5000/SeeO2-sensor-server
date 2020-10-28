@@ -23,13 +23,21 @@ Edit the arduino_secrets.h file to add your wifi name and password.
 
 Click Tools->Board->Arduino megaAVR Boards -> Arduino Uno WiFi Rev 2
 
-Click the upload button.
+Click the upload button. Arduino will take about 10 seconds to connect initialize sensors and connect to WiFI.
+
+Default static ip is http://192.168.0.18 , visit this page to see if you get a JSON response from the arduino/
 
 If desired you can read messages the arduino is outputting by clicking Tools -> Serial Monitor.
 
-## Available Scripts
+# Server Setup
 
-In the project directory, you can run:
+### Environment Variables
+
+Copy the .env.example file to .env and and your desired subdomain name and sensor id.
+
+## Available Scripts to start the server
+
+With the arduino up and running, in the project directory, you can run:
 
 ### `npm run localtunnel`
 
