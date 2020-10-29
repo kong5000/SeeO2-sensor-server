@@ -65,6 +65,7 @@ const establishNgrokConnection = async () => {
     console.log(response.data)
   } catch (e) {
     console.log(e.message)
+    console.log(`Expected SeeO2 backend to be running on ${BACKEND_URL}`)
   }
 }
 
@@ -92,5 +93,6 @@ const establishLocaltunnelConnection = async () => {
     console.log(response.data)
   } catch (e) {
     console.log(e.message)
+    console.log(`Expected SeeO2 backend to be running on ${BACKEND_URL}`)
   }
 }

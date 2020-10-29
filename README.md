@@ -30,7 +30,7 @@ Click Tools->Board->Arduino megaAVR Boards -> Arduino Uno WiFi Rev 2
 
 Click the upload button. Arduino will take about 10 seconds to initialize the sensor and connect to WiFI.
 
-Default static ip is http://192.168.0.18 , visit this page to see if you get a JSON response from the arduino
+The default static ip is http://192.168.0.18 , visit this page to see if you get a JSON response from the arduino.
 
 You can read messages the arduino is outputting by clicking Tools -> Serial Monitor.
 
@@ -38,7 +38,7 @@ You can read messages the arduino is outputting by clicking Tools -> Serial Moni
 
 ### Environment Variables
 
-Copy the .env.example file to .env and and your desired subdomain name and sensor id.
+Copy the .env.example file to .env and add your desired subdomain name and sensor id.
 
 ## Available Scripts to start the server
 
