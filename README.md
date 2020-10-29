@@ -7,23 +7,28 @@ Open the arduino IDE and click Tools-> Manage Libraries
 Enter WiFiNINA into the search bar and install the WiFiNINA library
 !["ArduinoLibraryInstall"](https://github.com/kong5000/SeeO2-sensor-server/blob/master/docs/arduino_library.png?raw=true)
 
-Similarly search for and install the Adafruit PM25 AQI and Adafruit BusIO libraries. 
+Similarly search for and install the Adafruit PM25 AQI and Adafruit BusIO libraries.
+
+Finally search for and install the ArduinoJson library.
 
 ### Install board specific libraries
 click Tools->Board -> Boards Manager
 
 Search for Arduino megaAVR Boards and install the package.
 
-### Uploading Code to Arduino
-Connect the Arduino to your computer.
 
+### Code Setup
 In the arduino IDE click File->Open and open the Arduino folder from this github project.
 
 Edit the arduino_secrets.h file to add your wifi name and password.
 
+
+### Uploading Code to Arduino
+Connect the Arduino to your computer.
+
 Click Tools->Board->Arduino megaAVR Boards -> Arduino Uno WiFi Rev 2
 
-Click the upload button. Arduino will take about 10 seconds to connect initialize sensors and connect to WiFI.
+Click the upload button. Arduino will take about 10 seconds to initialize the sensor and connect to WiFI.
 
 Default static ip is http://192.168.0.18 , visit this page to see if you get a JSON response from the arduino
 
