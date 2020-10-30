@@ -6,6 +6,7 @@ const localtunnel = require('localtunnel');
 const ngrok = require('ngrok')
 const BACKEND_URL = 'http://localhost:8001';
 const DEFAULT_ARDUINO_IP = 'http://192.168.0.18'
+const PORT = 3001;
 const args = process.argv.slice(2);
 
 let arduinoIP = DEFAULT_ARDUINO_IP;
@@ -40,8 +41,8 @@ app.get("/reset", async (req, res) => {
   }
 });
 
-app.listen(3000, async () => {
-  console.log("Server listening on port 3000!\n")
+app.listen(PORT, async () => {
+  console.log(`Server listening on port ${PORT}!\n`)
   console.log(`Arduino is at ${arduinoIP}`)
   //Use either local tunnel or ngrok depening on command line args
   if (args.includes("localtunnel")) {
@@ -54,7 +55,7 @@ app.listen(3000, async () => {
 const establishNgrokConnection = async () => {
   try {
     const url = await ngrok.connect({
-      addr: 3000
+      addr: PORT
     });
     console.log(`ngrok url is: ${url}\n`)
 
@@ -76,7 +77,7 @@ const establishNgrokConnection = async () => {
 
 const establishLocaltunnelConnection = async () => {
   try {
-    const tunnel = await localtunnel({ port: 3000, subdomain: process.env.TUNNEL_SUBDOMAIN });
+    const tunnel = await localtunnel({ port: PORT, subdomain: process.env.TUNNEL_SUBDOMAIN });
     console.log(`localtunnel url is : ${tunnel.url}\n`)
 
     tunnel.on('close', () => {
