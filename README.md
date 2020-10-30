@@ -40,7 +40,7 @@ You can read messages the arduino is outputting by clicking Tools -> Serial Moni
 
 Copy the .env.example file to .env and add your desired subdomain name and sensor id. 
 
-If you are not using the default local arduino address http://192.168.0.18, set ARDUINO_ADDRESS in the .env file to your desired address. Use the full url e.g. http://123.456.789.101
+If you are not using the default local arduino address http://192.168.0.18, set ARDUINO_ADDRESS in the .env file to your desired address. Use the full url e.g. ARDUINO_ADDRESS = http://123.456.789.101
 
 ## Available Scripts to start the server
 
