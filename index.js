@@ -4,6 +4,7 @@ const app = express();
 const axios = require("axios")
 const localtunnel = require('localtunnel');
 const ngrok = require('ngrok')
+const BACKEND_URL = 'http://localhost:8001';
 const DEFAULT_ARDUINO_IP = 'http://192.168.0.18'
 const args = process.argv.slice(2);
 
@@ -11,8 +12,6 @@ let arduinoIP = DEFAULT_ARDUINO_IP;
 if(process.env.ARDUINO_ADDRESS !== "null"){
   arduinoIP = process.env.ARDUINO_ADDRESS;
 }
-
-const BACKEND_URL = 'http://localhost:8001';
 
 app.get("/", async (req, res) => {
   try {

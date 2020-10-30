@@ -16,6 +16,16 @@ click Tools->Board -> Boards Manager
 
 Search for Arduino megaAVR Boards and install the package.
 
+### Update Arduino firmware
+Click Tools -> WiFI101 / WiFiNINA Firmware updater 
+
+In the popup click Open Updater sketch near the top right, this should open a new window. In that new window with the updater code click the upload button and wait for it to complete.
+
+Once uploaded, back in the WiFiNINA Firmware updater pop up, in the top box select Arduino Uno Wifi Rev2
+
+In the next box labeled Update firmware, select NINA firmware(1.3.0)(Arduino Uno WiFi Rev2) from the drop down
+
+Click update firmware
 
 ### Code Setup
 In the arduino IDE click File->Open and open the Arduino folder from this github project.
