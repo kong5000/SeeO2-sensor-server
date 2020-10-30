@@ -8,8 +8,8 @@ const DEFAULT_ARDUINO_IP = 'http://192.168.0.18'
 const args = process.argv.slice(2);
 
 let arduinoIP = DEFAULT_ARDUINO_IP;
-if(process.env.ARDUINO_IP !== "null"){
-  arduinoIP = process.env.ARDUINO_IP;
+if(process.env.ARDUINO_ADDRESS !== "null"){
+  arduinoIP = process.env.ARDUINO_ADDRESS;
 }
 
 const BACKEND_URL = 'http://localhost:8001';
@@ -42,7 +42,7 @@ app.get("/reset", async (req, res) => {
 });
 
 app.listen(3000, async () => {
-  console.log("Server listening on port 3000!")
+  console.log("Server listening on port 3000!\n")
   console.log(`Arduino is at ${arduinoIP}`)
   //Use either local tunnel or ngrok depening on command line args
   if (args.includes("localtunnel")) {
@@ -57,7 +57,7 @@ const establishNgrokConnection = async () => {
     const url = await ngrok.connect({
       addr: 3000
     });
-    console.log(`ngrok url is: ${url}`)
+    console.log(`ngrok url is: ${url}\n`)
 
     //Report the ngrok url to the SeeO2 backend
     const response = await axios({
@@ -78,7 +78,7 @@ const establishNgrokConnection = async () => {
 const establishLocaltunnelConnection = async () => {
   try {
     const tunnel = await localtunnel({ port: 3000, subdomain: process.env.TUNNEL_SUBDOMAIN });
-    console.log(`localtunnel url is : ${tunnel.url}`)
+    console.log(`localtunnel url is : ${tunnel.url}\n`)
 
     tunnel.on('close', () => {
       // tunnels are closed
