@@ -2,17 +2,16 @@
   With code from Simple Web Server WiFi WiFiNINA example
   by Tom Igoe and Adafruit's PM25 example.
 */
+
+#define ARDUINO_NAME "SET YOUR NAME HERE"
+#define USE_STATIC_IP true
+
 #include <SPI.h>
 #include <WiFiNINA.h>
 #include <ArduinoJson.h>
 #include "Adafruit_PM25AQI.h"
 #include "arduino_secrets.h"
-#include "DHT.h"
 
-
-#define DHTPIN 2     // Digital pin connected to the DHT sensor
-#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
-DHT dht(DHTPIN, DHTTYPE);
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
 char ssid[] = SECRET_SSID;        // your network SSID (name)
 char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
@@ -20,8 +19,6 @@ int keyIndex = 0;                 // your network key Index number (needed only 
 
 int pm25 = 0;
 int pm10 = 0;
-float humidity = 0;
-float temperature = 0;
 
 PM25_AQI_Data data;
 Adafruit_PM25AQI aqi = Adafruit_PM25AQI();
@@ -29,30 +26,13 @@ Adafruit_PM25AQI aqi = Adafruit_PM25AQI();
 int status = WL_IDLE_STATUS;
 WiFiServer server(80);
 
-#define ARDUINO_NAME "Keith Arduino"
-
-#define USE_STATIC_IP true
-
-#define USE_TEMP_HUMIDITY_SENSOR false
-
-unsigned long delayStart = 0;
-bool delayRunning = false;
-
 IPAddress local_IP(192, 168, 0, 18); //The static ip address used if USE_STATIC_IP is true
 
 
 void setup() {
-  delayStart = millis();   // start delay
-  delayRunning = true;
   pinMode(LED_BUILTIN, OUTPUT);
 
   Serial.begin(9600);      // initialize serial communication
-  
-  if (USE_TEMP_HUMIDITY_SENSOR) {
-    dht.begin();
-    humidity = dht.readHumidity();
-    temperature = dht.readTemperature();
-  }
 
   if (! aqi.begin_I2C()) {      // connect to the sensor over I2C
     Serial.println("Could not find PM 2.5 sensor!");
@@ -86,14 +66,8 @@ void setup() {
   server.begin();                           // start the web server on port 80
   printWifiStatus();                        // you're connected now, so print out the status
 }
-bool LED_HIGH = true;
 
 void loop() {
-
-  if (USE_TEMP_HUMIDITY_SENSOR) {
-    readHumidityTempSensor();
-  }
-
   WiFiClient client = server.available();   // listen for incoming clients
 
   if (client) {                             // if you get a client,
@@ -142,10 +116,7 @@ void loop() {
             doc["name"] = ARDUINO_NAME;
             doc["pm25"] = pm25;
             doc["pm10"] = pm10;
-            if (USE_TEMP_HUMIDITY_SENSOR) {
-              doc["humidity"] = humidity;
-              doc["temp"] = temperature;
-            }
+
             serializeJson(doc, Serial);
             client.println(F("HTTP/1.0 200 OK"));
             client.println(F("Content-Type: application/json"));
@@ -175,23 +146,6 @@ void loop() {
   }
 }
 
-void readHumidityTempSensor() {
-  if (USE_TEMP_HUMIDITY_SENSOR && ((millis() - delayStart) >= 5000)) {
-    delayStart = millis();
-
-    humidity = dht.readHumidity();
-    temperature = dht.readTemperature();
-
-    if (LED_HIGH) {
-      digitalWrite(LED_BUILTIN, HIGH);
-      LED_HIGH = false;
-    }
-    else {
-      digitalWrite(LED_BUILTIN, LOW);
-      LED_HIGH = true;
-    }
-  }
-}
 
 void printWifiStatus() {
   // print the SSID of the network you're attached to:
