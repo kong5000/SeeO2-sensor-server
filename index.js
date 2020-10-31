@@ -4,10 +4,14 @@ const app = express();
 const axios = require("axios")
 const localtunnel = require('localtunnel');
 const ngrok = require('ngrok')
-const BACKEND_URL = 'http://localhost:8001';
 const DEFAULT_ARDUINO_IP = 'http://192.168.0.18'
 const PORT = 3001;
 const args = process.argv.slice(2);
+let BACKEND_URL = 'http://localhost:8001';
+if(args.includes('remote-server')){
+  BACKEND_URL = 'https://see-o2-backend.herokuapp.com/';
+}
+console.log(`Reporting to backend at ${BACKEND_URL}`)
 
 let arduinoIP = DEFAULT_ARDUINO_IP;
 if(process.env.ARDUINO_ADDRESS !== "null"){

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "remote": "node index.js remote-server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "localtunnel": "node index.js localtunnel",
     "ngrok": "node index.js ngrok"
