@@ -9,7 +9,7 @@ const PORT = 3001;
 const args = process.argv.slice(2);
 let BACKEND_URL = 'http://localhost:8001';
 if(args.includes('remote-server')){
-  BACKEND_URL = 'https://see-o2-backend.herokuapp.com/';
+  BACKEND_URL = 'https://seeo2-backup-backend.loca.lt/';
 }
 console.log(`Reporting to backend at ${BACKEND_URL}`)
 
